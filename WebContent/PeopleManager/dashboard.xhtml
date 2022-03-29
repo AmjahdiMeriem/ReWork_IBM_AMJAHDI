@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" outcome="acceuil" />
+				<p:linkButton type="button" value="Dashoard" outcome="dashboard" />
+				<p:menuButton value="Créer une demande" icon="pi pi-file">
+					<p:menuitem value="Demande récurrente" outcome="demandeRecurrente"
+						disabled="#{collaborateurbean.disabled}" />
+					<p:menuitem value="Demande excepionnele"
+						outcome="demandeExceptionnelle" />
+				</p:menuButton>
+				<h:outputText value="&#160;" />
+				<p:linkButton type="button" value="Demandes non validées"
+					icon="pi pi-file" outcome="validationPeople" />
+				<h:outputText value="&#160;" />
+				<p:menuButton value="Consulter mon historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoCol" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleCol" />
+				</p:menuButton>
+				<h:outputText value="&#160;" />
+				<p:menuButton value="Consulter l'historique d'équipe"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoDemEqui" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleEqui" />
+				</p:menuButton>
+
+			</f:facet>
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+	<p:panelGrid columns="2" layout="grid">
+		<p:carousel numVisible="1" effect="easeInStrong"
+			headerText="Demandes télétravail"
+			itemStyle="height:300px;text-align:center" style="width:100%">
+			<p:tab title="Total des demandes de la dernière année "
+				style="width: 100%; height: 200px;">
+				<h:panelGrid style="width:100%">
+					<p:barChart model="#{dashboardbean.barModel1}"
+						style="width: 500px; height: 200px;" widgetVar="chart" />
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Total des demandes de la dernière année "
+				style="width: 100%; height: 200px;">
+				<h:panelGrid style="width:100%">
+					<p:barChart model="#{dashboardbean.barModel2}"
+						style="width: 500px; height: 200px;" widgetVar="chart" />
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Total des demandes de la dernière année "
+				style="width: 100%; height: 200px;">
+				<h:panelGrid style="width:100%">
+					<p:barChart model="#{dashboardbean.barModel3}"
+						style="width: 500px; height: 200px;" widgetVar="chart" />
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Total des demandes de la dernière année "
+				style="width: 100%; height: 200px;">
+				<h:panelGrid style="width:100%">
+					<p:barChart model="#{dashboardbean.barModel4}"
+						style="width: 500px; height: 200px;" widgetVar="chart" />
+				</h:panelGrid>
+			</p:tab>
+		</p:carousel>
+		<p:carousel numVisible="1" effect="easeInStrong"
+			headerText="Télétravail" itemStyle="height:300px;text-align:center"
+			style="width:100%">
+			<p:tab title="Total des demandes de la dernière année "
+				style="width: 100%; height: 200px;">
+				<h:panelGrid style="width:100%">
+					<p:barChart model="#{dashboardbean.barModel5}"
+						style="width: 500px; height: 200px;" widgetVar="chart" />
+				</h:panelGrid>
+			</p:tab>
+			<p:tab title="Total des demandes de la dernière année "
+				style="width: 100%; height: 200px;">
+				<h:panelGrid style="width:100%">
+					<p:barChart model="#{dashboardbean.barModel6}"
+						style="width: 500px; height: 200px;" widgetVar="chart" />
+				</h:panelGrid>
+			</p:tab>
+		</p:carousel>
+	</p:panelGrid>
+</h:body>
+</html>

@@ -1,0 +1,125 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" outcome="acceuil" />
+				<p:linkButton type="button" value="Dashoard" outcome="dashboard" />
+				<p:menuButton value="Créer une demande" icon="pi pi-file">
+					<p:menuitem value="Demande récurrente" outcome="demandeRecurrente"
+						disabled="#{collaborateurbean.disabled}" />
+					<p:menuitem value="Demande excepionnele"
+						outcome="demandeExceptionnelle" />
+				</p:menuButton>
+				<h:outputText value="&#160;" />
+				<p:linkButton type="button" value="Demandes non validées"
+					icon="pi pi-file" outcome="validationPeople" />
+				<h:outputText value="&#160;" />
+				<p:menuButton value="Consulter mon historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoCol" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleCol" />
+				</p:menuButton>
+				<h:outputText value="&#160;" />
+				<p:menuButton value="Consulter l'historique d'équipe"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoDemEqui" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleEqui" />
+				</p:menuButton>
+			</f:facet>
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+	<h:form>
+		<div>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:panel header="Demande télétravail exceptionnel" id="panel"
+				style="margin-top:2%;margin-left:30%;margin-right:30%; text-align: center;">
+				<p:panelGrid columns="2" id="matchGrid"
+					columnClasses="ui-lg-6 ui-md-6,ui-lg-6 ui-md-2,ui-lg-4 ui-md-2"
+					layout="grid" styleClass="ui-panelgrid-blank ui-fluid"
+					cellpadding="12">
+					<h:outputLabel for="nom" value="Nom :" />
+					<p:inputText id="nom" value="#{collaborateurbean.col.nomCol}"
+						readonly="true" />
+					<p:outputLabel for="prenomCol" value="Prenom :" />
+					<p:inputText id="prenomCol" name="prenomCol"
+						value="#{collaborateurbean.col.prenomCol}" readonly="true" />
+					<p:outputLabel for="practice" value="Practice :" />
+					<p:inputText id="practice" name="practice"
+						value="#{collaborateurbean.col.practice.libPractice}"
+						readonly="true" />
+					<h:outputLabel for="tel1" value="Numéro de téléphone :" />
+					<p:inputMask id="tel1" value="#{collaborateurbean.col.tel1}"
+						mask="09-99-99-99-99" />
+					<h:outputLabel for="tel2" value="Numéro de téléphone 2 :" />
+					<p:inputMask id="tel2" value="#{collaborateurbean.col.tel2}"
+						mask="09-99-99-99-99" />
+					<p:outputLabel for="projet" value="Nom de projet:" />
+					<p:inputText id="projet" name="projet"
+						value="#{demandeexbean.demande.nomProjet}" required="true" />
+					<p:outputLabel for="jourTele" value="Jour de télétravil:" />
+					<p:selectOneMenu id="jourTele"
+						value="#{demandeexbean.demande.jourTele}" name="jourTele"
+						style="width:150px" required="true">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="false" />
+						<f:selectItem itemLabel="Lundi" itemValue="Lundi" />
+						<f:selectItem itemLabel="Mardi" itemValue="Mardi" />
+						<f:selectItem itemLabel="Mercredi" itemValue="Mercredi" />
+						<f:selectItem itemLabel="Jeudi" itemValue="Jeudi" />
+						<f:selectItem itemLabel="Vendredi" itemValue="Vendredi" />
+					</p:selectOneMenu>
+					<p:outputLabel for="lieuTele" value="Lieu :" />
+					<p:inputText id="lieuTele" name="lieuTele"
+						value="#{demandeexbean.demande.lieuTele}" required="true" />
+					<p:outputLabel for="deli" value="Delivery Manager: " />
+					<p:selectOneMenu id="deli"
+						value="#{demandeexbean.matriculeDelivery}" style="width:150px"
+						required="true">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="false" />
+						<f:selectItems value="#{listbymatriculebean.deliveryOptionsMap}" />
+					</p:selectOneMenu>
+					<p:outputLabel for="dureett" value="Durée: " />
+					<p:selectOneMenu id="dureett"
+						value="#{demandeexbean.demande.duree}" style="width:150px"
+						required="true">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="false" />
+						<f:selectItems value="#{demandeexbean.dureeOptionsMap}">
+						</f:selectItems>
+					</p:selectOneMenu>
+					<p:outputLabel for="popup" value="Date désirée:" />
+					<p:datePicker id="popup" value="#{demandeexbean.date1}"
+						disabledDays="#{demandeexbean.invalidDays}" readonlyInput="true" />
+					<h:outputText value="VM opérationnelle: " />
+					<p:toggleSwitch id="vm" name="vm"
+						value="#{demandeexbean.demande.vm}">
+						<p:ajax listener="#{demandeexbean.checkState}" update="submit"></p:ajax>
+					</p:toggleSwitch>
+					<h:outputText value="Connexion opérationnelle: " />
+					<p:toggleSwitch id="cnx" name="cnx"
+						value="#{demandeexbean.demande.cnx}">
+						<p:ajax listener="#{demandeexbean.checkState}" update="submit"></p:ajax>
+					</p:toggleSwitch>
+				</p:panelGrid>
+				<p:commandButton value="Enregistrer" icon="pi pi-check" id="submit"
+					action="#{demandeexbean.addDemande}"
+					disabled="#{demandeexbean.disable}" update="@form"
+					style="float:center;" />
+				<p:linkButton outcome="acceuil" value="Retour"
+					icon="pi pi-arrow-circle-left" style="margin-right:20px;">
+				</p:linkButton>
+			</p:panel>
+		</div>
+	</h:form>
+</h:body>
+</html>

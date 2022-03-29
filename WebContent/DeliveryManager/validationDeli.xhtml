@@ -1,0 +1,168 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" 
+					outcome="acceuil" />
+					
+					<p:linkButton type="button" value="Dashboard" 
+					outcome="dashboard" />
+					
+					<p:menuButton value="Créer une demande"
+					icon="pi pi-file">
+					<p:menuitem value="Demande récurrente"
+						outcome="demandeRecurrente" disabled = "#{collaborateurbean.disabled}"/>
+					<p:menuitem value="Demande exceptionnele"
+						outcome="demandeExceptionnelle"/>
+					<p:menuitem value="TT exceptionnel"
+						outcome="exceptionnel"/>
+				    </p:menuButton>
+				     <h:outputText value="&#160;" />
+				    
+				    <h:outputText value="&#160;" />
+				    <p:linkButton type="button" value="Demandes non validées" icon="pi pi-file"
+					    outcome="validationDeli" />
+					
+					<p:menuButton value="Historique"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoAllDemande"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoAllTele" />
+				    </p:menuButton>
+				    
+					<p:menuButton value="Consulter mon historique"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoCol"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoTeleCol" />
+				    </p:menuButton>
+				    
+				    <p:menuButton value="Consulter l'historique d'équipe"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoDemEqui"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoTeleEqui" />
+				    </p:menuButton>
+			</f:facet>
+
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+
+	<h:form>
+		<p:growl id="growl" showDetail="true" life="2000" />
+		<p:dataTable var="demande" value="#{deliverymanagerbean.demandes}"
+			id="dtdemande" rows="10" paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="10,15"
+			style="width:50%;margin-left:25%;">
+			<f:facet name="header">
+				<p:outputLabel
+					value="Liste des demandes en attente de validation: #{deliverymanagerbean.size}"></p:outputLabel>
+			</f:facet>
+			<p:column style="width:16px">
+				<p:rowToggler />
+			</p:column>
+			<p:column headerText="Nom" >
+				<h:outputText value="#{demande.col.nomCol} #{demande.col.prenomCol}" />
+			</p:column>
+
+			<p:column headerText="Type de la demande">
+				<h:outputText value="#{demande.typeDemande.libTypeDemande}">
+				</h:outputText>
+			</p:column>
+
+
+			<p:rowExpansion>
+				<p:panelGrid columns="2"  columnClasses="label,value"
+					style="width:65%;text-align:center;display:block">
+					<p:outputLabel value="Nom" />
+					<h:outputText value="#{demande.col.nomCol}" />
+
+					<p:outputLabel value="Prenom" />
+					<h:outputText value="#{demande.col.prenomCol}" />
+
+					<p:outputLabel value="Practice" />
+					<h:outputText value="#{demande.col.practice.libPractice}" />
+
+					<p:outputLabel value="Numéro de téléphone 1" />
+					<h:outputText value="#{demande.col.tel1}" />
+
+					<p:outputLabel value="Numéro de téléphone 2" />
+					<h:outputText value="#{demande.col.tel2}" />
+
+					<h:outputText value="Date de la  création de la demande" />
+					<h:outputText value="#{demande.dateDemande}" />
+
+					<h:outputText value="Nom du projet" />
+					<h:outputText value="#{demande.nomProjet}" />
+
+					<h:outputText value="Durée(j)" />
+					<h:outputText value="#{demande.duree}" />
+
+					<h:outputText value="Jour choisi" />
+					<h:outputText value="#{demande.jourTele}" />
+
+					<h:outputText value="Date 1" />
+					<h:outputText value="#{demande.dateEx1}" />
+
+					<h:outputText value="Lieu du télétravail" />
+					<h:outputText value="#{demande.lieuTele}" />
+				
+				</p:panelGrid>
+
+				<p:separator />
+
+				<p:commandButton value="Valider"
+					action="#{deliverymanagerbean.valider}" update="@form"
+					style="background-color:#009900;" icon="pi pi-check">
+					<f:param name="Id" value="#{demande.idDemande}"></f:param>
+
+					<f:param name="IdType" value="#{demande.typeDemande.idTypeDemande}"></f:param>
+
+					<p:confirm header="Confirmation"
+						message="Etes-vous sûr de vouloir valider la demande?"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+
+				<p:commandButton value="Refuser"
+					action="#{deliverymanagerbean.refuser}" update="@form"
+					style="background-color:#ff6666;" icon="pi pi-times">
+					<f:param name="Id" value="#{demande.idDemande}"></f:param>
+
+					<f:param name="IdType" value="#{demande.typeDemande.idTypeDemande}"></f:param>
+
+					<p:confirm header="Confirmation"
+						message="Etes-vous sûr de vouloir refuser la demande?"
+						icon="pi pi-exclamation-triangle" />
+				</p:commandButton>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Oui" type="button"
+						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="Non" type="button"
+						styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+				</p:confirmDialog>
+
+			</p:rowExpansion>
+
+		</p:dataTable>
+	</h:form>
+
+</h:body>
+</html>

@@ -1,0 +1,169 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" 
+					outcome="acceuil" />
+					
+					<p:linkButton type="button" value="Dashboard" 
+					outcome="dashboard" />
+					
+					<p:menuButton value="Créer une demande"
+					icon="pi pi-file">
+					<p:menuitem value="Demande récurrente"
+						outcome="demandeRecurrente" disabled = "#{collaborateurbean.disabled}"/>
+					<p:menuitem value="Demande exceptionnele"
+						outcome="demandeExceptionnelle"/>
+					<p:menuitem value="TT exceptionnel"
+						outcome="exceptionnel"/>
+				    </p:menuButton>
+				     <h:outputText value="&#160;" />
+				    
+				    <h:outputText value="&#160;" />
+				    <p:linkButton type="button" value="Demandes non validées" icon="pi pi-file"
+					    outcome="validationDeli" />
+					    
+					<p:menuButton value="Historique"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoAllDemande"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoAllTele" />
+				    </p:menuButton>
+				    
+					<p:menuButton value="Consulter mon historique"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoCol"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoTeleCol" />
+				    </p:menuButton>
+				    
+				    <p:menuButton value="Consulter l'historique d'équipe"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoDemEqui"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoTeleEqui" />
+				    </p:menuButton>
+			</f:facet>
+
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+	
+	<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+
+.ui-button-text-only .ui-button-text {
+	padding: 0.3em 0.4em;
+}
+
+.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+	visibility: hidden;
+}
+
+.ui-filter-column .ui-column-customfilter .custom-filter {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.year-spinner input {
+	width: 100%;
+	box-sizing: border-box;
+}
+</style>
+
+	<h:form>
+		<p:dataTable var="tele" value="#{histoteleequibean.teles}" 
+			widgetVar="demandesTable"
+			filteredValue="#{histoteleequibean.filteredTeles}"
+			emptyMessage="Aucune demande n'a été trouvé" rows="5"
+			paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15">
+
+			<f:facet name="header">
+				<p:outputPanel>
+					<h:outputText value="Chercher tous les champs:" />
+					<p:inputText id="globalFilter"
+						onkeyup="PF('demandesTable').filter()" style="width:150px"
+						placeholder="Mot clef" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column headerText="Nom du collaborateur"
+				filterBy="#{tele.demande.col.nomCol}" filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="#{tele.demande.col.nomCol} #{tele.demande.col.prenomCol}" />
+			</p:column>
+			
+			<p:column headerText="Date début"
+				filterBy="#{tele.dateDebut}" filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="#{tele.dateDebut}" />
+			</p:column>
+			
+			<p:column headerText="Date de fin"
+				filterBy="" filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="" />
+			</p:column>
+
+			<p:column filterBy="#{tele.demande.jourTele}" headerText="Jour"
+				filterMatchMode="exact">
+				<f:facet name="filter">
+					<p:selectOneMenu onchange="PF('demandesTable').filter()"
+						styleClass="custom-filter">
+						<f:selectItem itemLabel="Select One" itemValue="#{null}"
+							noSelectionOption="true" />
+						<f:selectItem itemLabel="Lundi" itemValue="Lundi" />
+						<f:selectItem itemLabel="Mardi" itemValue="Mardi" />
+						<f:selectItem itemLabel="Mercredi" itemValue="Mercredi" />
+						<f:selectItem itemLabel="Jeudi" itemValue="Jeudi" />
+						<f:selectItem itemLabel="Vendredi" itemValue="Vendredi" />
+					</p:selectOneMenu>
+				</f:facet>
+				<h:outputText value="#{tele.demande.jourTele}" />
+			</p:column>
+
+			<p:column headerText="Projet" filterBy="#{tele.demande.nomProjet}"
+				filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="#{tele.demande.nomProjet}" />
+			</p:column>
+			
+			<p:column filterBy="#{tele.demande.typeDemande.stateDemande}"
+				headerText="Type" filterMatchMode="equals">
+				<f:facet name="filter">
+					<p:selectOneButton onchange="PF('demandesTable').filter()"
+						styleClass="custom-filter">
+						<f:converter converterId="javax.faces.Boolean" />
+						<f:selectItem itemLabel="All" itemValue="" />
+						<f:selectItem itemLabel="Récurrente" itemValue="false" />
+						<f:selectItem itemLabel="Exceptionnelle" itemValue="true" />
+					</p:selectOneButton>
+				</f:facet>
+				<h:outputText
+					value="#{tele.demande.typeDemande.stateDemande ? 'Exceptionnele': 'Récurrente'}" />
+			</p:column>
+			
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,149 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" icon="pi pi-home"
+					outcome="acceuil" />
+				<p:menuButton value="Créer une demande" icon="pi pi-file">
+					<p:menuitem value="Récurrente" outcome="demandeRecurrente"
+						disabled="#{collaborateurbean.disabled}" />
+					<p:menuitem value="Excepionnele"
+						outcome="demandeExceptionnelle" />
+				</p:menuButton>
+
+				<h:outputText value="&#160;" />
+				<p:menuButton value="Consulter l'historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoCol" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleCol" />
+				</p:menuButton>
+			</f:facet>
+
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+	<style type="text/css">
+.ui-datatable .ui-datatable-header {
+	text-align: right !important;
+}
+
+.ui-button-text-only .ui-button-text {
+	padding: 0.3em 0.4em;
+}
+
+.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+	visibility: hidden;
+}
+
+.ui-filter-column .ui-column-customfilter .custom-filter {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.year-spinner input {
+	width: 100%;
+	box-sizing: border-box;
+}
+</style>
+
+
+
+	<h:form>
+
+		<p:dataTable var="demande" value="#{histodemandecolbean.demandes}"
+			widgetVar="demandesTable"
+			filteredValue="#{histodemandecolbean.filteredDemandes}"
+			emptyMessage="Aucune demande n'a été trouvé" rows="5"
+			paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15">
+
+			<f:facet name="header">
+				<p:outputPanel>
+
+					<h:outputText value="Chercher tous les champs:" />
+					<p:inputText id="globalFilter"
+						onkeyup="PF('demandesTable').filter()" style="width:150px"
+						placeholder="Mot clef" />
+				</p:outputPanel>
+			</f:facet>
+
+			<p:column headerText="Date de la demande"
+				filterBy="#{demande.dateDemande}" filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="#{demande.dateDemande}" />
+			</p:column>
+
+			<p:column filterBy="#{demande.jourTele}" headerText="Jour"
+				filterMatchMode="exact">
+				<f:facet name="filter">
+					<p:selectOneMenu onchange="PF('demandesTable').filter()"
+						styleClass="custom-filter">
+						<f:selectItem itemLabel="Select One" itemValue="#{null}"
+							noSelectionOption="true" />
+						<f:selectItem itemLabel="Lundi" itemValue="Lundi" />
+						<f:selectItem itemLabel="Mardi" itemValue="Mardi" />
+						<f:selectItem itemLabel="Mercredi" itemValue="Mercredi" />
+						<f:selectItem itemLabel="Jeudi" itemValue="Jeudi" />
+						<f:selectItem itemLabel="Vendredi" itemValue="Vendredi" />
+					</p:selectOneMenu>
+				</f:facet>
+				<h:outputText value="#{demande.jourTele}" />
+			</p:column>
+
+			<p:column headerText="Projet" filterBy="#{demande.nomProjet}"
+				filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="#{demande.nomProjet}" />
+			</p:column>
+
+			<p:column headerText="Lieu" filterBy="#{demande.lieuTele}"
+				filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="#{demande.lieuTele}" />
+			</p:column>
+
+			<p:column headerText="Durée(j)" filterBy="#{demande.duree}"
+				filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="#{demande.duree}" />
+			</p:column>
+
+			<p:column headerText="Statut"
+				filterBy="#{demande.statut.libelleStatut}"
+				filterMatchMode="contains">
+				<f:facet name="filter" />
+				<h:outputText value="#{demande.statut.libelleStatut}" />
+			</p:column>
+
+			<p:column filterBy="#{demande.typeDemande.stateDemande}"
+				headerText="Type" filterMatchMode="equals">
+				<f:facet name="filter">
+					<p:selectOneButton onchange="PF('demandesTable').filter()"
+						styleClass="custom-filter">
+						<f:converter converterId="javax.faces.Boolean" />
+						<f:selectItem itemLabel="All" itemValue="" />
+						<f:selectItem itemLabel="Récurrente" itemValue="false" />
+						<f:selectItem itemLabel="Exceptionnelle" itemValue="true" />
+					</p:selectOneButton>
+				</f:facet>
+				<h:outputText
+					value="#{demande.typeDemande.stateDemande ? 'Exceptionnele': 'Récurrente'}" />
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+</h:body>
+</html>

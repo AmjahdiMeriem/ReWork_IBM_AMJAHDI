@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<style type="text/css">
+.right div {
+	float: right;
+}
+</style>
+<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" outcome="acceuil" />
+				<p:linkButton type="button" value="Edit" outcome="editRole" />
+				<p:linkButton type="button" value="Dashboard" outcome="dashboard" />
+				<p:linkButton type="button" value="Graphe" outcome="ChartJs" />
+				<p:menuButton value="Créer une demande" icon="pi pi-file">
+					<p:menuitem value="Demande récurrente" outcome="demandeRecurrente"
+						disabled="#{collaborateurbean.disabled}" />
+					<p:menuitem value="Demande exceptionnele"
+						outcome="demandeExceptionnelle" />
+					<p:menuitem value="TT exceptionnel" outcome="exceptionnel" />
+				</p:menuButton>
+
+				<h:outputText value="&#160;" />
+				<p:linkButton type="button" value="Demandes non validées"
+					icon="pi pi-file" outcome="validationDeli" />
+
+				<p:menuButton value="Historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoAllDemande" />
+					<p:menuitem value="Télétravaux" outcome="HistoAllTele" />
+				</p:menuButton>
+
+				<p:menuButton value="Consulter mon historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoCol" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleCol" />
+				</p:menuButton>
+
+				<p:menuButton value="Consulter l'historique d'équipe"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoDemEqui" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleEqui" />
+				</p:menuButton>
+
+			</f:facet>
+
+
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+	
+	<h:form>
+		<p:growl id="growl" showDetail="true" />
+		<h:panelGrid columns="3" columnClasses="left,center,right" style="width:100%">
+			<p:chart type="bar" model="#{chartJsView3.b1}"
+				style="width:400px;height:300px" id="model1">
+				<p:ajax event="itemSelect" listener="#{chartJsView3.itemSelect1}"
+					update="model1" />
+			</p:chart>
+			<p:chart type="bar" model="#{chartJsView3.b2}"
+				style="width:400px;height:300px" id="model2">
+				<p:ajax event="itemSelect" listener="#{chartJsView3.itemSelect2}"
+					update="model2" />
+			</p:chart>
+			
+		<p:linkButton outcome="ChartJs" icon="fa fa-fw fa-reply"
+			style="margin-right:20px;">
+		</p:linkButton>
+		</h:panelGrid>
+	</h:form>
+</h:body>
+</html>

@@ -1,0 +1,104 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" 
+					outcome="acceuil" />
+					<p:linkButton type="button" value="Dashboard" 
+					outcome="dashboard" />
+					<p:menuButton value="Créer une demande"
+					icon="pi pi-file">
+					<p:menuitem value="Demande récurrente"
+						outcome="demandeRecurrente" disabled = "#{collaborateurbean.disabled}"/>
+					<p:menuitem value="Demande exceptionnele"
+						outcome="demandeExceptionnelle"/>
+					<p:menuitem value="TT exceptionnel"
+						outcome="exceptionnel"/>
+				    </p:menuButton>
+				     <h:outputText value="&#160;" />
+				    <h:outputText value="&#160;" />
+				    <p:linkButton type="button" value="Demandes non validées" icon="pi pi-file"
+					    outcome="validationDeli" />
+					<p:menuButton value="Historique"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoAllDemande"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoAllTele" />
+				    </p:menuButton>
+					<p:menuButton value="Consulter mon historique"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoCol"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoTeleCol" />
+				    </p:menuButton>
+				    <p:menuButton value="Consulter l'historique d'équipe"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes"
+						outcome="HistoDemEqui"/>
+					<p:menuitem value="Télétravaux"
+						outcome="HistoTeleEqui" />
+				    </p:menuButton>
+			</f:facet>
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+		<style type="text/css">
+    .ui-row-editor .ui-row-editor-pencil {
+        margin-left:8px;
+    }
+</style>
+ <h:form id="form">
+    <p:growl id="msgs" showDetail="true"/>
+    <p:dataTable id="cars1" var="col" value="#{editrolebean.cols}" editable="true" style="margin-bottom:20px"
+    widgetVar="demandesTable"
+			filteredValue="#{editrolebean.filteredCols}"
+			emptyMessage="Aucune demande n'a été trouvé" rows="5"
+			paginator="true"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15">
+        <f:facet name="header">
+            Row Editing
+        </f:facet>
+        <p:ajax event="rowEdit" listener="#{editrolebean.onRowEdit}" update=":form:msgs" />
+        <p:ajax event="rowEditCancel" listener="#{editrolebean.onRowCancel}" update=":form:msgs" />
+        <p:column headerText="Nom" filterBy="#{col.nomCol} " filterMatchMode="contains">
+        <h:outputText value="#{col.nomCol}" />
+        </p:column>
+        <p:column headerText="Prenom" filterBy="#{col.prenomCol} " filterMatchMode="contains">
+       <h:outputText value="#{col.prenomCol}" />
+        </p:column>
+        <p:column headerText="Matricule" filterBy="#{col.matriculeCol} " filterMatchMode="contains">
+			<h:outputText value="#{col.matriculeCol}" />  
+        </p:column>
+        <p:column headerText="Role" filterBy="#{col.role.libRole}" filterMatchMode="contains">
+        <f:facet name="filter"/>
+            <p:cellEditor>
+                <f:facet name="output"><h:outputText value="#{col.role.libRole}" /></f:facet>
+                <f:facet name="input">
+                    <h:selectOneMenu value="#{col.role.libRole}" style="width:100%">
+                        <f:selectItems value="#{editrolebean.libRoles}" var="man" itemLabel="#{man}" itemValue="#{man}" />
+                    </h:selectOneMenu>
+                </f:facet>
+            </p:cellEditor>
+        </p:column>
+        <p:column style="width:35px">
+            <p:rowEditor />
+        </p:column>
+    </p:dataTable>
+	</h:form>
+</h:body>
+</html>

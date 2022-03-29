@@ -1,0 +1,103 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" outcome="acceuil" />
+				<p:linkButton type="button" value="Dashboard" outcome="dashboard" />
+				<p:menuButton value="Créer une demande" icon="pi pi-file">
+					<p:menuitem value="Demande récurrente" outcome="demandeRecurrente"
+						disabled="#{collaborateurbean.disabled}" />
+					<p:menuitem value="Demande exceptionnele"
+						outcome="demandeExceptionnelle" />
+					<p:menuitem value="TT exceptionnel" outcome="exceptionnel" />
+				</p:menuButton>
+				<h:outputText value="&#160;" />
+				<h:outputText value="&#160;" />
+				<p:linkButton type="button" value="Demandes non validées"
+					icon="pi pi-file" outcome="validationDeli" />
+				<p:menuButton value="Historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoAllDemande" />
+					<p:menuitem value="Télétravaux" outcome="HistoAllTele" />
+				</p:menuButton>
+				<p:menuButton value="Consulter mon historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoCol" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleCol" />
+				</p:menuButton>
+				<p:menuButton value="Consulter l'historique d'équipe"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoDemEqui" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleEqui" />
+				</p:menuButton>
+			</f:facet>
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+	<h:form>
+		<h:panelGrid columns="3" style="margin-bottom:10px" cellpadding="12"
+			layout="grid" id="matchGrid">
+			<h:outputLabel for="mat" value="Matricule " />
+			<p:selectOneMenu id="mat" value="#{exceptionnelbean.mat}"
+				style="width:260px" required="true">
+				<f:selectItem itemLabel="" itemValue="" noSelectionOption="false" />
+				<f:selectItems value="#{listbymatriculebean.mats}" />
+			</p:selectOneMenu>
+			<p:commandButton action="#{exceptionnelbean.search}"
+				update="matchGrid" value="Search" style="float:center;" />
+		</h:panelGrid>
+	</h:form>
+	<h:form>
+		<div>
+			<p:growl id="growl" showDetail="true" sticky="true" />
+			<p:panel header="Télétravail exceptionnel" id="panel"
+				style="margin-top:2%;margin-left:30%;margin-right:30%; text-align: center;">
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="12"
+					layout="grid">
+					<h:outputLabel for="nom" value="Nom :" />
+					<p:inputText id="nom"
+						value="#{exceptionnelbean.tele.demande.col.nomCol}"
+						readonly="true" />
+					<p:outputLabel for="prenomCol" value="Prenom :" />
+					<p:inputText id="prenomCol" name="prenomCol"
+						value="#{exceptionnelbean.tele.demande.col.prenomCol}"
+						readonly="true" />
+					<p:outputLabel for="practice" value="Practice :" />
+					<p:inputText id="practice" name="practice"
+						value="#{exceptionnelbean.tele.demande.col.practice.libPractice}"
+						readonly="true" />
+					<h:outputLabel for="tel1" value="Numéro de téléphone :" />
+					<p:inputText id="tel1"
+						value="#{exceptionnelbean.tele.demande.col.tel1}" />
+					<h:outputLabel for="tel2" value="Numéro de téléphone 2 :" />
+					<p:inputText id="tel2"
+						value="#{exceptionnelbean.tele.demande.col.tel2}" />
+					<p:outputLabel for="duree" value="Durée " />
+					<p:selectOneMenu id="duree"
+						value="#{exceptionnelbean.tele.dureeTele}" style="width:150px"
+						required="true">
+						<f:selectItem itemLabel="" itemValue="" noSelectionOption="false" />
+						<f:selectItems value="#{exceptionnelbean.list}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<p:commandButton value="Enregistrer" icon="pi pi-check" id="submit"
+					action="#{exceptionnelbean.saveTeleEcx}" update="@form"
+					style="float:center;" />
+				<p:linkButton outcome="acceuil" value="Retour"
+					icon="pi pi-arrow-circle-left" style="margin-right:20px;">
+				</p:linkButton>
+			</p:panel>
+		</div>
+	</h:form>
+</h:body>
+</html>

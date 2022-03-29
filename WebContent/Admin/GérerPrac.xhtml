@@ -1,0 +1,40 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:growl id="msgs" />
+		<p:panel header="Create a new practice" style="margin-bottom:20px">
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Practice : *" for="practice"></h:outputLabel>
+				<p:inputText id="practice" value="#{collectorview.practice.libPractice}"
+					required="true" />
+				<p:commandButton id="btn_reset" value="Reset" type="reset" />
+				<p:commandButton id="btn_add" value="Add" update="practices msgs @parent"
+					action="#{collectorview.reinit2}">
+					<p:collector value="#{collectorview.practice}"
+						addTo="#{collectorview.practices}" unique="true" />
+				</p:commandButton>
+			</h:panelGrid>
+		</p:panel>
+		<p:outputPanel id="practices">
+			<p:dataTable value="#{collectorview.practices}" var="practice" id="practiceTable">
+				<p:column headerText="Nom">
+					<h:outputText value="#{practice.libPractice}" />
+				</p:column>
+				<p:column headerText="Action">
+					<p:commandLink value="Remove" update=":form:practices"
+						process=":form:practices" action="#{collectorview.deletPractice}">
+						<f:param name="Id" value="#{practice.idPractice}"></f:param>
+						<p:collector value="#{practice}" removeFrom="#{collectorview.practices}"
+							unique="true" />
+						</p:commandLink>
+						</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</h:form>
+</h:body>
+</html>

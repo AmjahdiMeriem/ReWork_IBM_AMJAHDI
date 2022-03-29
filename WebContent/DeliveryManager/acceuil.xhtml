@@ -1,0 +1,132 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:linkButton type="button" value="Acceuil" outcome="acceuil" />
+				<p:linkButton type="button" value="Edit" outcome="editRole" />
+				<p:linkButton type="button" value="Dashboard" outcome="dashboard" />
+				<p:linkButton type="button" value="Graphe" outcome="ChartJs" />
+				<p:menuButton value="Créer une demande" icon="pi pi-file">
+					<p:menuitem value="Demande récurrente" outcome="demandeRecurrente"
+						disabled="#{collaborateurbean.disabled}" />
+					<p:menuitem value="Demande exceptionnele"
+						outcome="demandeExceptionnelle" />
+					<p:menuitem value="TT exceptionnel" outcome="exceptionnel" />
+				</p:menuButton>
+
+				<h:outputText value="&#160;" />
+				<p:linkButton type="button" value="Demandes non validées"
+					icon="pi pi-file" outcome="validationDeli" />
+
+				<p:menuButton value="Historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoAllDemande" />
+					<p:menuitem value="Télétravaux" outcome="HistoAllTele" />
+				</p:menuButton>
+
+				<p:menuButton value="Consulter mon historique" icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoCol" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleCol" />
+				</p:menuButton>
+
+				<p:menuButton value="Consulter l'historique d'équipe"
+					icon="pi pi-clock">
+					<p:menuitem value="Demandes" outcome="HistoDemEqui" />
+					<p:menuitem value="Télétravaux" outcome="HistoTeleEqui" />
+				</p:menuButton>
+
+			</f:facet>
+
+
+			<f:facet name="right">
+				<p:menuButton value="#{collaborateurbean.nomPrenom}"
+					icon="pi pi-user">
+					<p:menuitem value="Se déconnecter"
+						action="#{collaborateurbean.logout}" icon="pi pi-sign-out" />
+				</p:menuButton>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+
+	<h:form>
+		<p:growl id="growl" showDetail="true" sticky="true" />
+		<h:panelGroup layout="block"
+			style="margin-right:15%;margin-left:15%;margin-top:5%">
+			<h3 style="margin-top: 0">Formule 1 : Télétravail récurrent</h3>
+			<h:outputText
+				value="Cette formule concerne les collaborateurs qui ont des contraintes personnelles spécifiques." />
+			<br />
+			<br />
+			<p:tabView>
+				<p:tab title="Eligibilité">
+					<h:panelGrid columns="2" cellpadding="10">
+						<!--                 <p:graphicImage name=".jpg" /> -->
+						<h:outputText
+							value="Les collaborateurs internes qui ont une ancienneté de 1 an." />
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Durée">
+					<h:panelGrid columns="2" cellpadding="10">
+						<!--                 <p:graphicImage name=".jpg" /> -->
+						<h:outputText value="Une journée par semaine non cumulable." />
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Procédure">
+					<h:panelGrid columns="2" cellpadding="10">
+						<!--                 <p:graphicImage name=".jpg" /> -->
+						<h:outputText
+							value="Le collaborateur doit remplire la demande d'autorisation de télétravail." />
+						<br />
+						<h:outputText
+							value="Son People Manager se chargera de valider le planning avec le Delivery Manager." />
+						<br />
+						<h:outputText
+							value="Le Delivery Manager confirme sa validation pour une durée de 3 mois." />
+						<br />
+						<h:outputText
+							value="La durée de validité d'une demande est de 1 an." />
+						<br />
+						<h:outputText
+							value=" Toute reconduction devra faire objet d’une nouvelle demande à valider par le People Manager." />
+						<br />
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+			<br />
+			<br />
+			<h3 style="margin-top: 0">Formule 2 : Télétravail exceptionnel</h3>
+			<h:outputText
+				value="Cette formule concerne les collaborateurs qui peuvent avoir une contrainte ponctuelle." />
+			<br />
+			<br />
+			<p:tabView>
+				<p:tab title="Eligibilité">
+					<h:panelGrid columns="2" cellpadding="10">
+						<!--                 <p:graphicImage name=".jpg" /> -->
+						<h:outputText value="L'ensemble des collaborateurs internes. " />
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Durée">
+					<h:panelGrid columns="2" cellpadding="10">
+						<!--                 <p:graphicImage name=".jpg" /> -->
+						<h:outputText value="4 demi-journées ou 2 jours par mois" />
+					</h:panelGrid>
+				</p:tab>
+				<p:tab title="Procédure">
+					<h:panelGrid columns="2" cellpadding="10">
+						<!--                 <p:graphicImage name=".jpg" /> -->
+						<h:outputText
+							value="Le collaborateur doit prendre contact avec son Delivery Manager pour avoir sa validation, 
+                             Si le Delivery Manager valide la demande, le collaborateur doit aviser son People Manager." />
+					</h:panelGrid>
+				</p:tab>
+			</p:tabView>
+		</h:panelGroup>
+	</h:form>
+</h:body>
+</html>

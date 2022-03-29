@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:panelGrid columns="4" cellpadding="5">
+		<p:menu>
+			<p:submenu label="Demandes">
+				<p:menuitem value="Exceptionnelles" url="#" icon="fa fa-plus" />
+				<p:menuitem value="Récurrentes" url="#" icon="fa fa-refresh" />
+				<p:menuitem value="Exceptionnels" url="#" icon="fa fa-home" />
+				<p:menuitem value="Récurrents" url="#" icon="fa fa-user" />
+			</p:submenu>
+		</p:menu>
+		<p:panel id="p1" header="Nombre total des collaborateurs">
+			<h:outputText value="1000" />
+			<p:effect type="pulsate" event="click" />
+		</p:panel>
+		<p:panel id="p2" header="Collaborateurs qui font un télétravail">
+			<h:outputText value="450" />
+			<p:effect type="pulsate" event="click" />
+		</p:panel>
+		<p:panel id="p3"
+			header="Collaborateurs qui sont en télétravail aujourd'huit ">
+			<h:outputText value="50" />
+			<p:effect type="pulsate" event="click" />
+		</p:panel>
+	</h:panelGrid>
+	<p:separator style="width:100%;height:10px"/>
+	<h:panelGrid columns="6" cellpadding="5">
+		<p:panel id="rpnl1" header="Demandes exceptionelles acceptées">
+			<h:outputText value="8" />
+		</p:panel>
+		<p:draggable for="rpnl1" revert="true" />
+		<p:panel id="rpnl2" header="Demandes exceptionelles refusées">
+			<h:outputText value="9" />
+		</p:panel>
+		<p:draggable for="rpnl2" revert="true"/>
+		<p:panel id="rpnl3" header="Demandes récurrentes acceptées">
+			<h:outputText value="2" />
+		</p:panel>
+		<p:draggable for="rpnl3" revert="true"/>
+		<p:panel id="rpnl4" header="Demandes récurrentes refusées">
+			<h:outputText value="10"/>
+		</p:panel>
+		<p:draggable for="rpnl4" revert="true"/>
+		<p:panel id="rpnl5" header="">
+			<h:outputText value=""/>
+		</p:panel>
+		<p:draggable for="rpnl5" revert="true" />
+		<p:panel id="rpnl6" header="">
+			<h:outputText value="" />
+		</p:panel>
+		<p:draggable for="rpnl6" revert="true" />
+	</h:panelGrid>
+	<p:separator style="width:100%;height:10px" />
+	<h:panelGrid columns="4" cellpadding="5">
+		<p:menu>
+			<p:submenu label="Demandes">
+				<p:menuitem value="Exceptionnelle" url="#" icon="fa fa-plus" />
+				<p:menuitem value="Récurrente" url="#" icon="fa fa-refresh" />
+			</p:submenu>
+			<p:submenu label="Télétravaux">
+				<p:menuitem value="Exceptionnels" url="#" icon="fa fa-home" />
+				<p:menuitem value="Récurrents" url="#" icon="fa fa-user" />
+			</p:submenu>
+		</p:menu>
+	</h:panelGrid>
+	<p:separator style="width:100%;height:10px" />
+	<p:commandButton type="button" value="Show" style="display:block"
+		icon="pi pi-image">
+		<p:effect type="puff" event="click" for="img">
+			<f:param name="mode" value="'show'" />
+		</p:effect>
+	</p:commandButton>
+	<p:graphicImage id="img" name="excel.png"
+		style="display:none" />
+	<p:commandButton value="Print" type="button" icon="pi pi-print"
+		style="display:block;margin-bottom: 20px">
+		<p:printer target="img" />
+	</p:commandButton>
+</h:body>
+</html>

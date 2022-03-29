@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form>
+		<p:toolbar>
+			<f:facet name="left">
+				<p:outputLabel
+					style="font-family:Verdana;font-size: 40px;color:#5ecbf4;font-weight:bold">Welcome to Re:Work</p:outputLabel>
+			</f:facet>
+		</p:toolbar>
+	</h:form>
+
+	<h:form>
+		<div>
+		<p:growl id="growl" showDetail="true" sticky="true"/>
+			<p:panel header="Login" id="panel"
+				style="margin-top:15%;margin-left:30%;margin-right:30%;text-align: center;">
+				<h:panelGrid columns="2"
+					columnClasses="ui-lg-4 ui-md-6,ui-lg-4 ui-md-2,ui-lg-4 ui-md-2"
+					layout="grid" styleClass="ui-panelgrid-blank ui-fluid">
+					<h:outputLabel for="login" value="Login" />
+					<p:inputText id="login" value="#{collaborateurbean.col.login}"
+						required="true" />
+
+					<h:outputLabel for="pwd" value="Password" />
+					<p:password id="pwd" value="#{collaborateurbean.col.password}"
+						match="pwd" label="Password" required="true" />
+				</h:panelGrid>
+				<p:separator />
+				<p:commandButton action="#{collaborateurbean.recupColab}"
+					update="@form" value="Login"
+					style="width: 90px; height:40px;float:center;" icon="pi pi-key" />
+			</p:panel>
+		</div>
+	</h:form>
+</h:body>
+</html>

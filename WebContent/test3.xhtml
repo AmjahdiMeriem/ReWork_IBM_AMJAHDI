@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+<h:panelGrid columns="6" cellpadding="5">
+		<p:panel id="rpnl1" header="Demandes exceptionelles acceptées">
+			<h:outputText value="8" />
+		</p:panel>
+		<p:draggable for="rpnl1" revert="true" />
+		<p:panel id="rpnl2" header="Demandes exceptionelles refusées">
+			<h:outputText value="9" />
+		</p:panel>
+		<p:draggable for="rpnl2" revert="true" />
+		<p:panel id="rpnl3" header="Demandes récurrentes acceptées">
+			<h:outputText value="2" />
+		</p:panel>
+		<p:draggable for="rpnl3" revert="true" />
+		<p:panel id="rpnl4" header="Demandes récurrentes refusées">
+			<h:outputText value="10" />
+		</p:panel>
+		<p:draggable for="rpnl4" revert="true" />
+		<p:panel id="rpnl5" header="Télétravaux exceptionnels dans ce mois">
+			<h:outputText value="2 jours" />
+		</p:panel>
+		<p:draggable for="rpnl5" revert="true" />
+		<p:panel id="rpnl6" header="Télétravaux récurrents ">
+			<h:outputText value="" />
+		</p:panel>
+		<p:draggable for="rpnl6" revert="true" />
+		<p:panel id="rpnl6" header="">
+			<h:outputText value="" />
+		</p:panel>
+	</h:panelGrid>
+</h:body>
+</html>

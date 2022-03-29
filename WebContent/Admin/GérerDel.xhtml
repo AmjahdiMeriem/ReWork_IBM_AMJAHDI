@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:growl id="msgs" />
+		<p:panel header="Create a new Collaborator" style="margin-bottom:20px">
+			<h:panelGrid columns="2" cellpadding="5">
+				<h:outputLabel value="Nom : *" for="nom"></h:outputLabel>
+				<p:inputText id="nom" value="#{collectorview.col.nomCol}"
+					required="true" />
+				<h:outputLabel value="Prenom : *" for="prenom"></h:outputLabel>
+				<p:inputText id="prenom" value="#{collectorview.col.prenomCol}"
+					required="true" />
+				<h:outputLabel value="Login : *" for="login"></h:outputLabel>
+				<p:inputText id="login" value="#{collectorview.col.login}"
+					required="true" />
+				<h:outputLabel value="Password : *" for="password"></h:outputLabel>
+				<p:inputText id="password" value="#{collectorview.col.password}"
+					required="true" />
+				<p:commandButton id="btn_reset" value="Reset" type="reset" />
+				<p:commandButton id="btn_add" value="Add" update="cols msgs @parent"
+					action="#{collectorview.reinit1}">
+					<p:collector value="#{collectorview.col}"
+						addTo="#{collectorview.cols}" unique="true" />
+				</p:commandButton>
+			</h:panelGrid>
+		</p:panel>
+		<p:outputPanel id="cols">
+			<p:dataTable value="#{collectorview.cols}" var="col" id="colsTable">
+				<p:column headerText="Nom">
+					<h:outputText value="#{col.nomCol}" />
+				</p:column>
+				<p:column headerText="Prenom">
+					<f:facet name="header">
+						<h:outputText value="Prenom" />
+					</f:facet>
+					<h:outputText value="#{col.prenomCol}" />
+				</p:column>
+				<p:column headerText="Login">
+					<f:facet name="header">
+						<h:outputText value="Login" />
+					</f:facet>
+					<h:outputText value="#{col.login}" />
+				</p:column>
+				<p:column headerText="Password">
+					<f:facet name="header">
+						<h:outputText value="Password" />
+					</f:facet>
+					<h:outputText value="#{col.password}" />
+				</p:column>
+				<p:column headerText="Action">
+					<p:commandLink value="Remove" update=":form:cols"
+						process=":form:cols" action="#{collectorview.deletCol}">
+						<f:param name="Id" value="#{col.idCol}"></f:param>
+						<p:collector value="#{col}" removeFrom="#{collectorview.cols}"
+							unique="true" />
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+	</h:form>
+</h:body>
+</html>
